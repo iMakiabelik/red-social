@@ -1,0 +1,164 @@
+def mostrar_perfil(perfil):
+    print(f"Usuario: {perfil['nombre']} | Edad: {perfil['edad']} | Ciudad: {perfil['ciudad']}")
+    print("\nAmigos:")
+    for amigo in perfil['amigos']:
+        print(f" - {amigo['nombre']} (Amigos desde hace {amigo['tiempo_amigos']})")
+    print("\nPosts:")
+    for post in perfil['posts']:
+        print(f" - '{post['contenido']}' | Likes: {post['likes']} | Comentarios: {len(post['comentarios'])}")
+    print("-" * 50)
+
+def ejercicio_1():
+    print("=== EJERCICIO 1: SISTEMA DE RED SOCIAL ===\n")
+    
+    perfil_usuario = {
+        "nombre": "Carlos",
+        "edad": 28,
+        "ciudad": "Barcelona",
+        "amigos": [
+            {"nombre": "Ana", "tiempo_amigos": "2 años"},
+            {"nombre": "Luis", "tiempo_amigos": "6 meses"},
+            {"nombre": "Sofia", "tiempo_amigos": "5 años"}
+        ],
+        "posts": [
+            {
+                "contenido": "¡Hola a todos en la red social!",
+                "likes": 12,
+                "comentarios": ["¡Bienvenido!", "Qué genial"]
+            }
+        ]
+    }
+
+    print("Estado inicial:")
+    mostrar_perfil(perfil_usuario)
+
+    nuevo_post = {
+        "contenido": "Disfrutando de un café por la tarde.",
+        "likes": 5,
+        "comentarios": ["¡Invita!"]
+    }
+    perfil_usuario["posts"].append(nuevo_post)
+
+    perfil_usuario["ciudad"] = "Madrid"
+
+    if len(perfil_usuario["amigos"]) >= 2:
+        amigo_eliminado = perfil_usuario["amigos"].pop(1)
+        print(f"Se ha eliminado a {amigo_eliminado['nombre']} de la lista de amigos.\n")
+
+    print("Estado actualizado:")
+    mostrar_perfil(perfil_usuario)
+
+
+def buscar_pedidos_por_email(pedidos, email_cliente):
+    pedidos_encontrados = []
+    for pedido in pedidos:
+        if pedido["cliente"]["email"] == email_cliente:
+            pedidos_encontrados.append(pedido)
+    return pedidos_encontrados
+
+def ejercicio_2():
+    print("=== EJERCICIO 2: SISTEMA DE TIENDA ONLINE ===\n")
+
+    productos = [
+        {"id": 1, "nombre": "Camiseta", "precio": 19.99, "stock": 100},
+        {"id": 2, "nombre": "Zapatos", "precio": 59.99, "stock": 30}
+    ]
+
+    clientes = [
+        {"nombre": "María López", "email": "maria@example.com", "direccion": "Calle 123"},
+        {"nombre": "Juan Pérez", "email": "juan@example.com", "direccion": "Carrera 45"}
+    ]
+
+    pedidos = [
+        {
+            "id_pedido": 101,
+            "cliente": clientes[0],
+            "productos": [{"id": 1, "cantidad": 2}],
+            "estado": "Pendiente"
+        },
+        {
+            "id_pedido": 102,
+            "cliente": clientes[1],
+            "productos": [{"id": 2, "cantidad": 1}],
+            "estado": "Enviado"
+        }
+    ]
+
+    nuevo_producto = {"id": 3, "nombre": "Pantalón", "precio": 39.99, "stock": 75}
+    productos.append(nuevo_producto)
+    print(f"Producto agregado: {nuevo_producto['nombre']} (${nuevo_producto['precio']})")
+
+    for pedido in pedidos:
+        if pedido["id_pedido"] == 101:
+            pedido["estado"] = "Entregado"
+            print(f"El estado del pedido 101 ha cambiado a: {pedido['estado']}")
+
+    email_busqueda = "maria@example.com"
+    pedidos_maria = buscar_pedidos_por_email(pedidos, email_busqueda)
+    print(f"\nPedidos encontrados para '{email_busqueda}':")
+    for p in pedidos_maria:
+        print(f" - Pedido ID: {p['id_pedido']} | Estado: {p['estado']}")
+    print("-" * 50)
+
+
+def calcular_promedio_estudiante(estudiante):
+    todas_las_notas = []
+    for curso in estudiante["cursos_matriculados"]:
+        todas_las_notas.extend(curso["notas"])
+    
+    if not todas_las_notas:
+        return 0.0
+    return sum(todas_las_notas) / len(todas_las_notas)
+
+def listar_estudiantes_en_curso(estudiantes, id_curso):
+    matriculados = []
+    for est in estudiantes:
+        for curso in est["cursos_matriculados"]:
+            if curso["id_curso"] == id_curso:
+                matriculados.append(est["nombre"])
+                break
+    return matriculados
+
+def ejercicio_3():
+    print("=== EJERCICIO 3: SISTEMA DE GESTIÓN UNIVERSITARIA ===\n")
+
+    cursos = [
+        {"id_curso": "CS101", "nombre": "Programación I", "profesor": "Dr. Ramírez"},
+        {"id_curso": "MAT201", "nombre": "Cálculo", "profesor": "Dra. Gómez"}
+    ]
+
+    estudiantes = [
+        {
+            "nombre": "Laura Gómez",
+            "id": "E001",
+            "cursos_matriculados": [
+                {"id_curso": "CS101", "notas": [4.5, 4.0, 5.0], "horario": "Lun-Mie 8:00-10:00"}
+            ]
+        }
+    ]
+
+    nuevo_estudiante = {
+        "nombre": "Pedro Martínez",
+        "id": "E002",
+        "cursos_matriculados": [
+            {"id_curso": "CS101", "notas": [3.8, 4.2], "horario": "Lun-Mie 8:00-10:00"}
+        ]
+    }
+    estudiantes.append(nuevo_estudiante)
+    print(f"Estudiante '{nuevo_estudiante['nombre']}' agregado y matriculado en CS101.")
+
+    promedio_laura = calcular_promedio_estudiante(estudiantes[0])
+    print(f"Promedio de notas de {estudiantes[0]['nombre']}: {promedio_laura:.2f}")
+
+    curso_objetivo = "CS101"
+    lista_alumnos = listar_estudiantes_en_curso(estudiantes, curso_objetivo)
+    print(f"\nEstudiantes matriculados en {curso_objetivo}:")
+    for alumno in lista_alumnos:
+        print(f" - {alumno}")
+    print("-" * 50)
+
+
+if __name__ == "__main__":
+    ejercicio_1()
+    ejercicio_2()
+    ejercicio_3()
